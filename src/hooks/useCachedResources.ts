@@ -17,7 +17,8 @@ export default function useCachedResources() {
         await Font.loadAsync({
           ...Ionicons.font,
           [FontNames.SpaceMono]: require('../../assets/fonts/SpaceMono-Regular.ttf'),
-          [FontNames.RevyIcons]: require('../../assets/fonts/revyicons.ttf')
+          [FontNames.RevyIcons]: require('../../assets/fonts/revyicons.ttf'),
+          [FontNames.RoundedMplus1c]: require('../../assets/fonts/RoundedMplus1c-Black.ttf'),
         });
       } catch (e) {
         // We might want to provide this error information to an error reporting service

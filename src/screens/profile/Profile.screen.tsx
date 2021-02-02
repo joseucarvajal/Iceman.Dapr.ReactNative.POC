@@ -3,7 +3,7 @@ import { Block, Card, Tabs, Timeline } from '../../shared/components';
 import { Text } from '../../shared/atomic/ions';
 import { Button } from '../../shared/atomic/atoms';
 import Images from '../../constants/Images';
-import { Sizes } from '../../shared/theme';
+import { Colors, Sizes } from '../../shared/theme';
 
 export interface ILegalProps { 
   route?: any | undefined;
@@ -11,14 +11,17 @@ export interface ILegalProps {
 
 const Profile: React.FC<ILegalProps> = ({ route }) => {
   const [tab, setTab] = useState('timeline');
+  const [contactBtn, setContactBtn]: any = useState(Colors.PRIMARY);
+  const [followBtn, setFollowBtn]: any = useState(Colors.DARK_PRIMARY);
+
   return (
     <Block flex padding={Sizes.BASE}>
       <Card data={data} />
       <Block row middle paddingTop={Sizes.BASE} paddingBottom={Sizes.BASE}>
-        <Button rounded>
+        <Button color={contactBtn} onPress={() => setContactBtn( contactBtn === Colors.PRIMARY ? Colors.DARK_PRIMARY : Colors.PRIMARY )} rounded>
           <Text h3>Contact</Text>
         </Button>
-        <Button rounded>
+        <Button color={followBtn} onPress={() => setFollowBtn( followBtn === Colors.PRIMARY ? Colors.DARK_PRIMARY : Colors.PRIMARY )} rounded>
           <Text h3>Follow</Text>
         </Button>
       </Block>
