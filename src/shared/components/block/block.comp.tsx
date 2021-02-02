@@ -34,6 +34,7 @@ export interface IBlockProps {
   paddingHorizontal?: number,
   paddingVertical?: number,
   box?: boolean,
+  square?: boolean,
   backgroundColor?: any,
   defaultColor?: boolean
 }
@@ -68,6 +69,7 @@ const Block: React.FC<IBlockProps> = ({
   paddingLeft,
   paddingRight,
   box,
+  square,
   paddingHorizontal,
   paddingVertical,
   backgroundColor = Colors.TRANSPARENT,
@@ -81,6 +83,7 @@ const Block: React.FC<IBlockProps> = ({
     defaultColor && { backgroundColor: Colors.BACKGROUND },
     styles.block,
     box && styles.box,
+    square && styles.square,
     row && styles.row,
     flex && { flex: flex === true ? 1 : flex },
     center && styles.center,
@@ -181,5 +184,12 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowRadius: 5,
     shadowOpacity: 1,
+  },
+  square: {
+    width: 70, 
+    height: 70, 
+    borderRadius: 5, 
+    borderWidth: 1, 
+    borderColor: "white"
   }
 });

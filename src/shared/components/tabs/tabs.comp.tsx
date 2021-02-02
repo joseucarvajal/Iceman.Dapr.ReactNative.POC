@@ -111,7 +111,6 @@ const Tabs: React.FC<ITabsProps> = ({
 
   const updateInitialIndex = useCallback(() => {
     if (initialIndexDefault === null) {
-      console.log('entro', initialIndex);
       selectMenu(initialIndex);
       setInitialIndexDefault(initialIndex);
     }

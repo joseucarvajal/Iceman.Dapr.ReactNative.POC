@@ -49,7 +49,9 @@ export const COMPONENTS = {
   BLOCK: '#808080',
   ICON: '#000000',
   MODAL: 'rgba(52, 52, 52, 0.8)',
-  BACKGROUND: '#050505'
+  BACKGROUND: '#050505',
+  SEPARATOR: '#706E6E',
+  TEXT: '#CCC'
 };
 
 const COLORS = {

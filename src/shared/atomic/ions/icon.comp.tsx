@@ -11,7 +11,7 @@ export interface IIconProps {
   name: any,
   family: FamilyType,
   size: number,
-  color: string,
+  color?: string,
   style?: ViewStyle 
 }
 

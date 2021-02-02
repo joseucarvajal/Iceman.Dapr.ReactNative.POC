@@ -55,7 +55,7 @@
     "@types/react-native": "~0.63.2",
     "@types/react-native-vector-icons": "^6.4.6",
     "jest-expo": "~39.0.0",
-    "typescript": "~3.9.5"
+    "typescript": "~3.9.7"
   },
   "private": true
 }
