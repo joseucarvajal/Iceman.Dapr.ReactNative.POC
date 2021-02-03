@@ -4,12 +4,13 @@ import Block from '../block/block.comp'
 import { Colors, Sizes } from '../../theme';
 
 export interface ITabsProps {
-  initialIndex: any;
-  onChange?: any;
-  backgroundless?: any;
-  data?: any;
-  customTextColor?: string;
-  showSeparator?: boolean
+  initialIndex: any,
+  onChange?: any,
+  backgroundless?: any,
+  data?: any,
+  customTextColor?: string,
+  showSeparator?: boolean,
+  borderless?: boolean
 }
 
 const defaultMenu = [
@@ -23,8 +24,10 @@ const Tabs: React.FC<ITabsProps> = ({
   backgroundless,
   data: dataTabs,
   customTextColor,
-  showSeparator
+  showSeparator,
+  borderless
 }, props) => {
+
   const [initialIndexDefault, setInitialIndexDefault] = useState(null);
   const [data, _] = useState(dataTabs ? dataTabs : defaultMenu);
   const [active, setActive] = useState(null);
@@ -70,8 +73,8 @@ const Tabs: React.FC<ITabsProps> = ({
 
     const containerStyles = [
       styles.titleContainer,
-      !isActive && { borderColor: Colors.MUTED },
-      isActive && { borderColor: Colors.WHITE }
+      !isActive && { borderColor: borderless ? Colors.TRANSPARENT : Colors.MUTED },
+      isActive && { borderColor: borderless ? Colors.TRANSPARENT : Colors.WHITE }
     ];
 
     return (

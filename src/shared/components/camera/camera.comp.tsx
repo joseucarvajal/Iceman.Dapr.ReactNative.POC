@@ -4,8 +4,10 @@ import { StatusBar } from "expo-status-bar";
 import * as Permissions from 'expo-permissions'
 import { Camera } from 'expo-camera';
 import Block from '../block/block.comp';
-import { Colors } from '../../theme';
+import { Colors, Sizes } from '../../theme';
 import { Text, Icon } from '../../atomic/ions';
+import { Button } from '../../atomic/atoms';
+import Tabs from '../tabs/tabs.comp';
 
 export interface IProfileProps {
   onCloseCamera?: any,
@@ -99,9 +101,20 @@ const ArCamera: React.FC<IProfileProps> = ({
     }
   };
 
+  const handleFlashMode = () => {
+    setFlashMode(
+      flashMode === Camera.Constants.FlashMode.off
+        ? Camera.Constants.FlashMode.on
+        : Camera.Constants.FlashMode.off
+    )
+  }
+
+  const handleCameraType = () => {
+    setType(type === Camera.Constants.Type.back ? Camera.Constants.Type.front : Camera.Constants.Type.back)
+  }
+
   return (
     <Block flex>
-      <StatusBar hidden={true} />
       {isCameraShown && (
         <Camera
           ref={handleCameraRef}
@@ -111,67 +124,87 @@ const ArCamera: React.FC<IProfileProps> = ({
           style={StyleSheet.absoluteFill}
         />
       )}
-      <Block style={styles.topContainer}>
-        <Block flex row center middle space='between'>
+      <Block absolute style={styles.topContainerLeft}>
+        <Block flex center middle>
           <Block>
             <TouchableOpacity onPress={toggleCamera}>
               <Icon family="Ionicons" name="md-close" color="white" size={30} />
             </TouchableOpacity>
           </Block>
+        </Block>
+      </Block>
+      <Block absolute style={styles.topContainer}>
+        <Block flex center middle>
           <Block>
-            <TouchableOpacity onPress={() => {
-              setFlashMode(
-                flashMode === Camera.Constants.FlashMode.off
-                  ? Camera.Constants.FlashMode.on
-                  : Camera.Constants.FlashMode.off
-              )
-            }}>
+            <TouchableOpacity onPress={() => handleCameraType}>
               <Icon
                 family="Ionicons"
-                name={flashMode == Camera.Constants.FlashMode.on ? "ios-flash" : 'ios-flash-off'}
-                color={flashMode === Camera.Constants.FlashMode.off ? "white" : Colors.PRIMARY}
+                name={type === Camera.Constants.Type.back ? "ios-reverse-camera" : "ios-camera"}
+                color={type === Camera.Constants.Type.back ? "white" : Colors.PRIMARY}
                 size={30}
               />
             </TouchableOpacity>
           </Block>
-        </Block>
-      </Block>
-      <Block style={styles.bottomContainer}>
-        <Block flex row center middle space='between'>
-          <Block>
-            <TouchableOpacity onPress={toggleCamera}>
-              <Icon family="Ionicons" name={'md-images'} color="white" size={35} />
+          <Block paddingTop={20}>
+            <TouchableOpacity onPress={handleFlashMode}>
+              <Icon
+                family="MaterialCommunityIcons"
+                name={flashMode == Camera.Constants.FlashMode.on ? "flash" : 'flash-off'}
+                color={flashMode === Camera.Constants.FlashMode.off ? "white" : Colors.PRIMARY}
+                size={25}
+              />
             </TouchableOpacity>
           </Block>
+          <Block paddingTop={20}>
+            <TouchableOpacity onPress={toggleCamera}>
+              <Icon family="Octicons" name="settings" color="white" size={25} />
+            </TouchableOpacity>
+          </Block>
+          <Block paddingTop={20}>
+            <TouchableOpacity>
+              <Icon family="Ionicons" name="ios-timer" color="white" size={25} />
+            </TouchableOpacity>
+          </Block>
+          <Block paddingTop={20} paddingBottom={10}>
+            <TouchableOpacity>
+              <Icon family="MaterialCommunityIcons" name={'image-auto-adjust'} color="white" size={25} />
+            </TouchableOpacity>
+          </Block>
+        </Block>
+      </Block>
+      <Block absolute style={styles.bottomContainer}>
+        <Block row space="between">
           <Block>
+            <Button small rounded backgroundless>
+              <Text h3>Delete</Text>
+            </Button>
+          </Block>
+          <Block flex absolute style={styles.captureBtnContainer}>
             <TouchableWithoutFeedback
               onPressIn={() => setTakingVideo(true)}
               onPressOut={handleCaptureOut}
               onLongPress={handleLongCapture}
               onPress={handleShortCapture}>
               <Block middle center>
-                <Block style={[styles.captureBtn, isTakingVideo && styles.captureBtnActive]}>
-                  {isTakingVideo && <Block style={styles.captureBtnInternal} />}
-                </Block>
-                <Block paddingTop={10}>
-                  <Text extraSmall color={Colors.WHITE}>Hold for video, tap for photo</Text>
-                </Block>
+                {isTakingVideo ? 
+                  <Block middle center style={[styles.captureBtnSquare]}>
+                    <Block style={styles.captureBtnInternal}/> 
+                  </Block>
+                  : 
+                  <Block middle center style={[styles.captureBtn]}>
+                    <Block middle center style={[styles.captureBtnActive]} />
+                  </Block>
+                }
               </Block>
             </TouchableWithoutFeedback>
           </Block>
           <Block>
-            <TouchableOpacity onPress={() => {
-              setType(type === Camera.Constants.Type.back ? Camera.Constants.Type.front : Camera.Constants.Type.back)
-            }}>
-              <Icon
-                family="Ionicons"
-                name={type === Camera.Constants.Type.back ? "ios-reverse-camera" : "ios-camera"}
-                color={type === Camera.Constants.Type.back ? "white" : Colors.PRIMARY}
-                size={40}
-              />
-            </TouchableOpacity>
+            <Button small rounded backgroundless>
+              <Text h3>Send</Text>
+            </Button>
           </Block>
         </Block>
+        <Tabs data={tabs} initialIndex={'upload'} borderless/>
       </Block>
     </Block>
   );
@@ -179,40 +212,69 @@ const ArCamera: React.FC<IProfileProps> = ({
 
 export default ArCamera;
 
+const tabs = [
+  { id: 'upload', title: 'UPLOAD', },
+  { id: 'library', title: 'LIBRARY', }
+];
+
 const styles = StyleSheet.create({
-  topContainer: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    left: 0,
+  topContainerLeft: {
+    top: Sizes.BASE * 3,
+    left: Sizes.BASE,
     backgroundColor: 'rgba(10, 10, 10, 0.5)',
-    padding: 20,
+    paddingTop: 5,
+    paddingBottom: 5,
+    paddingLeft: 10,
+    paddingRight: 10,
+    borderRadius: 5
+  },
+  topContainer: {
+    top: Sizes.BASE * 3,
+    right: Sizes.BASE,
+    backgroundColor: 'rgba(10, 10, 10, 0.5)',
+    padding: 10,
+    borderRadius: 5
   },
   bottomContainer: {
-    position: 'absolute',
     bottom: 0,
     right: 0,
     left: 0,
-    backgroundColor: 'rgba(10, 10, 10, 0.5)',
-    padding: 30,
+    padding: 30
   },
   captureBtn: {
+    width: 70,
+    height: 70,
+    borderWidth: 2,
+    borderRadius: 70,
+    borderColor: "#FFFFFF"
+  },
+  captureBtnActive: {
     width: 60,
     height: 60,
     borderWidth: 2,
     borderRadius: 60,
-    borderColor: "#FFFFFF",
+    borderColor: Colors.PRIMARY,
+    backgroundColor: Colors.PRIMARY
   },
-  captureBtnActive: {
-    width: 80,
-    height: 80,
+  captureBtnSquare: {
+    width: 60,
+    height: 60,
+    borderWidth: 2,
+    borderRadius: 5,
+    borderColor: "#FFFFFF"
   },
   captureBtnInternal: {
-    width: 76,
-    height: 76,
-    borderWidth: 2,
-    borderRadius: 76,
-    backgroundColor: "red",
-    borderColor: "transparent",
+    width: 50,
+    height: 50,
+    borderRadius: 5,
+    backgroundColor: Colors.PRIMARY
+  },
+  captureBtnContainer: { 
+    flex: 1,
+    position: 'absolute',
+    alignSelf: 'center', 
+    right: 0,
+    left: 0,
+    zIndex: -1
   }
 });

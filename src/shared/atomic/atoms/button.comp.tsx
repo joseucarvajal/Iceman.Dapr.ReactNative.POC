@@ -59,29 +59,27 @@ const Button: React.FC<IButtonProps> = ({
     );
 
   const styleButton = [
+    color && { backgroundColor: Colors[color] },
     styles.button,
     small && styles.smallButton,
     large && styles.largeButton,
     backgroundless && styles.backgroundless,
     disabled && styles.disabled,
     shadow && styles.shadow,
-    color && { backgroundColor: Colors[color] },
     rounded && styles.rounded,
     style
   ];
 
   return (
-    <Block style={styleButton}>
-      <TouchableHighlight onPress={onPress} style={[{ flex: 1 }, styleButton]} underlayColor={Colors[underlayColor!]}>
-        <Block flex row middle center>
-          {left && !right && iconInstance}
-          <Block flex middle center >
-            {children}
-          </Block>
-          {right && iconInstance}
+    <TouchableHighlight onPress={onPress} style={[{ flex: 1 }, styleButton]} underlayColor={Colors[underlayColor!]}>
+      <Block flex row middle center>
+        {left && !right && iconInstance}
+        <Block flex middle center >
+          {children}
         </Block>
-      </TouchableHighlight>
-    </Block>
+        {right && iconInstance}
+      </Block>
+    </TouchableHighlight>
   );
 };
 
@@ -96,15 +94,16 @@ const styles = StyleSheet.create({
   },
   smallButton: {
     backgroundColor: Colors.THEME,
-    width: 90,
+    width: 90
   },
   largeButton: {
     backgroundColor: Colors.THEME,
     width: Sizes.WIDTH - Sizes.BASE * 2,
   },
   backgroundless: {
-    width: Sizes.WIDTH - Sizes.BASE * 2,
-    backgroundColor: Colors.TRANSPARENT
+    backgroundColor: Colors.TRANSPARENT,
+    borderWidth: 1,
+    borderColor: Colors.WHITE
   },
   shadow: {
     shadowColor: Colors.BLACK,

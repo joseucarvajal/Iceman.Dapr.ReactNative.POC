@@ -1,25 +1,36 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
+import { useNavigation } from "@react-navigation/native";
 import { Block } from "../../shared/components";
 import { Colors, Sizes } from "../../shared/theme";
 import { Icon, Text } from '../../shared/atomic/ions'
 import Camera from '../../components/camera-modal.comp';
-import Images from "../../constants/Images";
 
 export interface IUploadMediaProps { }
 
 const UploadMedia: React.FC<IUploadMediaProps> = ({ }) => {
 
-  const [photo, setPhoto] = React.useState(Images.Player);
-  const [modalVisible, setModalVisible] = React.useState(true);
+  const navigation = useNavigation();
+  const [media, setMedia] = React.useState(null);
+  const [modalVisible, setModalVisible] = React.useState(false);
 
-  const setProfilePhoto = (params: any) => {
-    params && setPhoto({ uri: params.uri })
+  const setMediaAsset = (params: any) => {
+    params && setMedia({ uri: params.uri })
     setModalVisible(false)
   }
 
   useEffect(() => {
     setModalVisible(true)
   }, []);
+
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', (e) => {
+      if(!modalVisible){
+        console.log("camera is off")
+        setModalVisible(true)
+      }
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   return (
     <Block flex paddingTop={Sizes.BASE*3}>
@@ -43,7 +54,7 @@ const UploadMedia: React.FC<IUploadMediaProps> = ({ }) => {
       </Block>
       <Camera
         visible={modalVisible}
-        onCloseCamera={(params: any) => setProfilePhoto(params)}
+        onCloseCamera={(params: any) => setMediaAsset(params)}
       />
     </Block>
   );

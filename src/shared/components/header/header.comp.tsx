@@ -33,8 +33,8 @@ const Header: React.FC<IHeaderProps> = ({
     return (
       <>
         {home &&
-          <View style={styles.left}>
-            <TouchableOpacity onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}>
+          <View>
+            <TouchableOpacity onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())} style={styles.left}>
               <Icon
                 family="FontAwesome"
                 name="bars"
@@ -45,8 +45,8 @@ const Header: React.FC<IHeaderProps> = ({
           </View>
         }
         {back &&
-          <View style={styles.left}>
-            <TouchableOpacity onPress={() => navigation.goBack()}>
+          <View>
+            <TouchableOpacity onPress={() => navigation.goBack()} style={styles.left}>
               <Icon
                 family="FontAwesome"
                 name="chevron-left"
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
     paddingLeft: Sizes.BASE,
     paddingRight: Sizes.BASE * 2,
     height: Sizes.HEADER_HEIGHT,
-    zIndex: 1,
+    zIndex: 1
   },
   shadow: {
     shadowColor: Colors.BLACK,

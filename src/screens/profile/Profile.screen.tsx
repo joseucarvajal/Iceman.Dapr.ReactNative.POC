@@ -5,11 +5,11 @@ import { Button } from '../../shared/atomic/atoms';
 import Images from '../../constants/Images';
 import { Sizes } from '../../shared/theme';
 
-export interface ILegalProps { 
+export interface IProfileProps { 
   route?: any | undefined;
 }
 
-const Profile: React.FC<ILegalProps> = ({ route }) => {
+const Profile: React.FC<IProfileProps> = ({ route }) => {
   const [tab, setTab] = useState('timeline');
   return (
     <Block flex padding={Sizes.BASE}>
